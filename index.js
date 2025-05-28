@@ -7,12 +7,6 @@
 //   console.log(`AI Scholar server is running on port: ${port}`);
 // });
 
-
-
-
-
-
-
 // TaskWiz
 require("dotenv").config();
 const express = require("express");
@@ -44,12 +38,17 @@ async function run() {
     // Connect the client to the server
     // await client.connect();
 
+    // Collections of Database
+    // const database = client.db("taskMartDB");
+    // const userCollection = database.collection("users");
+    // const taskCollection = database.collection("tasks");
+
     // Collections
     const db = client.db("taskWizDB");
     const userCollection = db.collection("users");
     const taskCollection = db.collection("tasks");
 
-    // Save All Users Data on Database
+    // Save All Users Data on Database (POST /users)
     app.post("/users", async (req, res) => {
       const user = req.body;
 
@@ -74,7 +73,7 @@ async function run() {
       });
     });
 
-    // Get All Users Data from Database
+    // GET ALL USERS (GET /users)
     app.get("/users", async (req, res) => {
       const result = await userCollection.find().toArray();
       res.send(result);
@@ -118,7 +117,7 @@ async function run() {
       }
     });
 
-    // GET TASKS BY USER EMAIL
+    // GET TASKS BY USER EMAIL (GET /tasks)
     app.get("/tasks", async (req, res) => {
       try {
         const email = req.query.email;
@@ -137,7 +136,7 @@ async function run() {
       }
     });
 
-    // Get All Tasks (GET Operation)
+    // GET ALL TASK (GET /allTasks)
     app.get("/allTasks", async (req, res) => {
       const allTasks = await taskCollection.find().toArray();
       res.send(allTasks);
@@ -223,22 +222,25 @@ async function run() {
       res.send({ success: true, message: "Task deleted successfully" });
     });
 
-    // Send a ping to confirm a successful connection
+    // Check connection to MongoDB
     // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
   } finally {
-    // Ensures that the client will close when you finish/error
+    // Clean-up (optional, but ensure proper handling)
     // await client.close();
   }
 }
+
 run().catch(console.dir);
 
+// Default route
 app.get("/", (req, res) => {
-  res.send("Hello from TaskWiz Server...");
+  res.send("Hello from TaskMart Server...");
 });
 
+// Start the server
 app.listen(port, () => {
-  console.log(`TaskWiz Server is running on port ${port}`);
+  console.log(`TaskMart Server is running on PORT: ${port}`);
 });
