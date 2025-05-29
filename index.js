@@ -1,11 +1,11 @@
-// require("dotenv").config();
-// const app = require("./src/server");
+require("dotenv").config();
+const app = require("./src/server");
 
-// const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-// app.listen(port, () => {
-//   console.log(`AI Scholar server is running on port: ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`AI Scholar server is running on port: ${port}`);
+});
 
 // TaskWiz
 require("dotenv").config();
@@ -232,6 +232,7 @@ async function run() {
     // await client.close();
   }
 }
+
 run().catch(console.dir);
 
 // Default route
